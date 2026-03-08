@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Elena Vasquez — Clothing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@200;300;400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #141414;
+  --paper: #f8f7f4;
+  --dust: #e8e5df;
+  --mid: #999;
+  --faint: rgba(20,20,20,0.08);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9000; opacity: 0.5;
+}
+
+/* Cursor */
+#cur { position:fixed; width:8px; height:8px; background:var(--ink); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+#cur-o { position:fixed; width:32px; height:32px; border:1px solid var(--ink); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .25s,height .25s,opacity .2s; }
+body:has(a:hover) #cur-o, body:has(button:hover) #cur-o { width:52px; height:52px; opacity:.4; }
+
+/* Nav */
+nav {
+  position: fixed; top:0; left:0; right:0;
+  display: flex; justify-content:space-between; align-items:center;
+  padding: 32px 56px; z-index: 500;
+  background: linear-gradient(to bottom, var(--paper) 55%, transparent);
+}
+.nav-name { font-family:'Playfair Display',serif; font-size:1.05rem; font-style:italic; letter-spacing:.04em; color:var(--ink); text-decoration:none; }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a { font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); text-decoration:none; position:relative; padding-bottom:2px; }
+.nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--ink); transition:width .35s; }
+.nav-links a:hover::after { width:100%; }
+
+/* Hero */
+#home { min-height:100vh; display:grid; grid-template-rows:1fr auto; padding-top:140px; position:relative; }
+.hero-inner { display:grid; grid-template-columns:56px 1fr 1fr; align-items:end; padding:0 56px 0 0; }
+.hero-vert { writing-mode:vertical-rl; font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; color:var(--mid); padding-left:56px; padding-bottom:20px; transform:rotate(180deg); user-select:none; }
+.hero-text { padding-left:24px; padding-bottom:80px; }
+.hero-tag { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.28em; text-transform:uppercase; color:var(--mid); margin-bottom:28px; opacity:0; animation:up .9s .2s forwards; }
+.hero-name { font-family:'Playfair Display',serif; font-size:clamp(3.8rem,7vw,7.5rem); font-weight:400; line-height:1.02; opacity:0; animation:up .9s .4s forwards; }
+.hero-name em { font-style:italic; display:block; }
+.hero-desc { margin-top:36px; max-width:380px; font-size:1.05rem; line-height:1.85; color:#555; opacity:0; animation:up .9s .65s forwards; }
+.hero-badges { display:flex; gap:12px; margin-top:40px; opacity:0; animation:up .9s .85s forwards; }
+.badge { display:inline-block; border:1px solid var(--ink); padding:6px 16px; font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; }
+.badge.filled { background:var(--ink); color:var(--paper); }
+
+.hero-img-col { position:relative; height:86vh; max-height:780px; overflow:hidden; }
+.hero-img-ph { position:absolute; inset:0; background:var(--ink); clip-path:polygon(12% 0%,100% 0%,100% 100%,0% 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.hero-img-ph::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent 0px,transparent 40px,rgba(255,255,255,.025) 40px,rgba(255,255,255,.025) 41px),repeating-linear-gradient(90deg,transparent 0px,transparent 80px,rgba(255,255,255,.015) 80px,rgba(255,255,255,.015) 81px); }
+.hero-img-note { font-family:'Playfair Display',serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,.15); text-align:center; padding:20px; position:relative; z-index:2; user-select:none; line-height:1.7; }
+.hero-img-lbl { position:absolute; bottom:32px; left:44px; font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.3); z-index:2; }
+
+.hero-scroll { grid-column:1/-1; display:flex; align-items:center; gap:14px; padding:28px 56px; border-top:1px solid var(--faint); font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; color:var(--mid); opacity:0; animation:fadeIn 1.2s 1.3s forwards; }
+.s-tick { width:36px; height:1px; background:var(--mid); position:relative; overflow:hidden; }
+.s-tick::after { content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--ink); animation:tick 2.5s 1.5s infinite; }
+
+/* About */
+#about { padding:160px 56px; display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:start; border-top:1px solid var(--faint); }
+.section-label { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:16px; margin-bottom:32px; }
+.section-label::before { content:''; width:30px; height:1px; background:var(--mid); }
+.about-heading { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,4vw,3.8rem); font-weight:400; line-height:1.18; }
+.about-heading em { font-style:italic; }
+.portrait-block { margin-top:52px; width:100%; aspect-ratio:3/4; max-width:340px; background:#d8d5cf; position:relative; overflow:hidden; }
+.portrait-block::after { content:'Your photo here'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(0,0,0,.25); }
+.portrait-cap { margin-top:14px; font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--mid); }
+.about-right { padding-top:80px; }
+.about-bio { font-size:1.1rem; line-height:1.95; color:#3a3a3a; margin-bottom:28px; }
+.about-bio.sm { font-size:1rem; color:#666; }
+.divider { width:40px; height:1px; background:var(--ink); margin:40px 0; }
+.about-list { list-style:none; }
+.about-list li { display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--faint); font-size:.92rem; }
+.about-list li span:first-child { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mid); }
+
+/* Portfolio */
+#portfolio { padding:160px 56px; border-top:1px solid var(--faint); background:var(--ink); color:var(--paper); }
+#portfolio .section-label { color:rgba(255,255,255,.4); }
+#portfolio .section-label::before { background:rgba(255,255,255,.4); }
+.port-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:72px; }
+.port-heading { font-family:'Playfair Display',serif; font-size:clamp(2.8rem,5.5vw,5.5rem); font-weight:400; line-height:1.05; color:var(--paper); margin-top:16px; }
+.port-heading em { font-style:italic; }
+.port-note { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.35); text-align:right; line-height:2; }
+
+.port-filters { display:flex; margin-bottom:48px; border:1px solid rgba(255,255,255,.15); width:fit-content; }
+.flt { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.45); background:transparent; border:none; border-right:1px solid rgba(255,255,255,.15); padding:12px 28px; cursor:none; transition:color .25s,background .25s; }
+.flt:last-child { border-right:none; }
+.flt.on, .flt:hover { color:var(--ink); background:var(--paper); }
+
+.port-grid { columns:3; column-gap:16px; }
+.port-item { break-inside:avoid; margin-bottom:16px; position:relative; overflow:hidden; cursor:none; display:block; }
+.port-item.off { display:none; }
+.p-img { width:100%; display:block; background:#222; position:relative; overflow:hidden; transition:transform .6s cubic-bezier(.23,1,.32,1); }
+.port-item:hover .p-img { transform:scale(1.02); }
+.p-inner { width:100%; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background:#1e1e1e; }
+.p-inner::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(135deg,transparent 0px,transparent 20px,rgba(255,255,255,.018) 20px,rgba(255,255,255,.018) 21px); }
+.p-lbl { font-family:'DM Mono',monospace; font-size:.55rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.2); text-align:center; z-index:2; position:relative; padding:8px; }
+
+/* varied heights */
+.ph-a { aspect-ratio:2/3; }
+.ph-b { aspect-ratio:3/4; }
+.ph-c { aspect-ratio:1/1; }
+.ph-d { aspect-ratio:3/5; }
+.ph-e { aspect-ratio:4/5; }
+
+.p-over { position:absolute; bottom:0; left:0; right:0; padding:24px 20px 20px; background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%); transform:translateY(100%); transition:transform .45s cubic-bezier(.23,1,.32,1); z-index:3; }
+.port-item:hover .p-over { transform:translateY(0); }
+.p-title { font-family:'Playfair Display',serif; font-size:1rem; font-style:italic; font-weight:400; color:var(--paper); }
+.p-meta { display:flex; justify-content:space-between; align-items:center; margin-top:6px; }
+.p-type { font-family:'DM Mono',monospace; font-size:.55rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.5); }
+.p-tag { font-family:'DM Mono',monospace; font-size:.5rem; letter-spacing:.14em; text-transform:uppercase; border:1px solid rgba(255,255,255,.35); padding:3px 8px; color:rgba(255,255,255,.7); }
+.p-tag.rent { border-color:rgba(255,255,255,.7); color:var(--paper); }
+
+.port-note-block { margin-top:52px; padding:28px 32px; border:1px dashed rgba(255,255,255,.18); font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.28); text-align:center; line-height:2; }
+
+/* Contact */
+#contact { padding:160px 56px 120px; border-top:1px solid var(--faint); display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:start; }
+.contact-heading { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,4.5vw,4.5rem); font-weight:400; line-height:1.12; margin-top:24px; margin-bottom:28px; }
+.contact-heading em { font-style:italic; }
+.contact-body { font-size:1rem; line-height:1.9; color:#555; max-width:400px; }
+.c-links { margin-top:52px; }
+.c-row { display:flex; align-items:center; gap:20px; padding:20px 0; border-bottom:1px solid var(--faint); text-decoration:none; color:var(--ink); position:relative; overflow:hidden; }
+.c-row::before { content:''; position:absolute; left:0; bottom:0; top:0; width:0; background:var(--ink); transition:width .4s cubic-bezier(.23,1,.32,1); z-index:0; }
+.c-row:hover::before { width:100%; }
+.c-row:hover .c-icon,.c-row:hover .c-lbl,.c-row:hover .c-val,.c-row:hover .c-arr { color:var(--paper); }
+.c-icon { font-size:1.1rem; position:relative; z-index:1; transition:color .3s; width:28px; text-align:center; }
+.c-lbl { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--mid); position:relative; z-index:1; transition:color .3s; width:100px; }
+.c-val { font-family:'Playfair Display',serif; font-style:italic; font-size:1.05rem; position:relative; z-index:1; transition:color .3s; flex:1; }
+.c-arr { position:relative; z-index:1; transition:transform .3s,color .3s; font-family:'DM Mono',monospace; }
+.c-row:hover .c-arr { transform:translateX(4px); }
+.c-right { padding-top:92px; }
+.c-form-lbl { font-family:'Playfair Display',serif; font-style:italic; font-size:1.5rem; margin-bottom:36px; display:block; color:#333; }
+.f-field { margin-bottom:32px; position:relative; }
+.f-field label { display:block; font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--mid); margin-bottom:10px; }
+.f-field input,.f-field textarea,.f-field select { width:100%; background:transparent; border:none; border-bottom:1px solid #ccc; padding:10px 0; font-family:'Jost',sans-serif; font-weight:300; font-size:1rem; color:var(--ink); outline:none; transition:border-color .3s; cursor:none; appearance:none; }
+.f-field input:focus,.f-field textarea:focus,.f-field select:focus { border-color:var(--ink); }
+.f-field textarea { resize:none; height:90px; }
+.f-under { position:absolute; bottom:0; left:0; height:1px; width:0; background:var(--ink); transition:width .4s; }
+.f-field input:focus ~ .f-under,.f-field textarea:focus ~ .f-under { width:100%; }
+.btn-send { display:inline-flex; align-items:center; gap:14px; background:var(--ink); color:var(--paper); border:none; padding:16px 40px; font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; cursor:none; position:relative; overflow:hidden; transition:color .3s; width:100%; justify-content:center; margin-top:8px; }
+.btn-send::before { content:''; position:absolute; inset:0; background:#333; transform:translateX(-101%); transition:transform .4s cubic-bezier(.23,1,.32,1); }
+.btn-send:hover::before { transform:translateX(0); }
+.btn-send span { position:relative; z-index:1; }
+
+/* Footer */
+footer { background:var(--ink); color:var(--paper); padding:52px 56px; display:flex; justify-content:space-between; align-items:center; }
+.f-name { font-family:'Playfair Display',serif; font-style:italic; font-size:1.4rem; }
+.f-mid { font-family:'DM Mono',monospace; font-size:.55rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.3); text-align:center; line-height:2; }
+.f-social { display:flex; gap:20px; }
+.f-social a { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.5); text-decoration:none; transition:color .25s; }
+.f-social a:hover { color:var(--paper); }
+
+/* Reveal */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .9s,transform .9s cubic-bezier(.23,1,.32,1); }
+.reveal.vis { opacity:1; transform:none; }
+
+/* Form ok */
+.form-ok { display:none; text-align:center; padding:52px 0; font-family:'Playfair Display',serif; font-style:italic; font-size:1.4rem; color:#444; }
+.form-ok.show { display:block; }
+
+@keyframes up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+@keyframes fadeIn { to{opacity:1} }
+@keyframes tick { 0%{left:-100%} 100%{left:100%} }
+
+@media(max-width:900px){
+  nav{padding:24px 28px;}
+  .hero-inner{grid-template-columns:0 1fr;}
+  .hero-vert{display:none;}
+  .hero-text{padding:0 28px 60px;}
+  .hero-img-col{display:none;}
+  #about,#contact{grid-template-columns:1fr;gap:52px;padding:100px 28px;}
+  .about-right{padding-top:0;}
+  .c-right{padding-top:0;}
+  #portfolio{padding:100px 28px;}
+  .port-grid{columns:2;}
+  .port-header{flex-direction:column;align-items:flex-start;gap:24px;}
+  footer{flex-direction:column;gap:28px;text-align:center;padding:40px 28px;}
+  .hero-scroll{padding:20px 28px;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-o"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-name">Elena Vasquez</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <div class="hero-inner">
+    <div class="hero-vert">Clothing — Sale &amp; Rental</div>
+    <div class="hero-text">
+      <p class="hero-tag">Independent Clothing Maker</p>
+      <h1 class="hero-name">Elena<br><em>Vasquez</em></h1>
+      <p class="hero-desc">Handmade garments conceived with intention — available to own or to wear for a night. Each piece is made one at a time, for bodies that deserve something singular.</p>
+      <div class="hero-badges">
+        <span class="badge filled">For Sale</span>
+        <span class="badge">For Rental</span>
+      </div>
+    </div>
+    <div class="hero-img-col">
+      <div class="hero-img-ph">
+        <p class="hero-img-note">Add your hero image here<br>— a full-length editorial shot works beautifully</p>
+        <span class="hero-img-lbl">Hero image · replace in code</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="s-tick"></div>Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left reveal">
+    <div class="section-label">About</div>
+    <h2 class="about-heading">Made by hand.<br><em>Worn with feeling.</em></h2>
+    <div class="portrait-block"></div>
+    <p class="portrait-cap">Elena Vasquez · [Your city]</p>
+  </div>
+  <div class="about-right reveal">
+    <p class="about-bio">I started making clothes because I couldn't find what I was looking for anywhere else. Not in stores, not in markets, not online. So I learned to sew — first badly, then less so — and somewhere along the way it became the thing I do every day.</p>
+    <p class="about-bio sm">My pieces are made in my studio, cut from fabrics I choose slowly and source carefully. Each one is finished by hand. I don't do collections or seasons — I make what I feel like making, and when something is gone, it's gone. Some pieces are available to buy outright; others I rent for occasions where one unforgettable night is enough.</p>
+    <p class="about-bio sm">I'm based in [your city]. I welcome custom inquiries, alterations, and long conversations about fabric.</p>
+    <div class="divider"></div>
+    <ul class="about-list">
+      <li><span>Based in</span><span>[Your City]</span></li>
+      <li><span>Available for</span><span>Sale &amp; Rental</span></li>
+      <li><span>Custom orders</span><span>Yes, by inquiry</span></li>
+      <li><span>Turnaround</span><span>3 – 6 weeks</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="port-header reveal">
+    <div>
+      <div class="section-label">The work</div>
+      <h2 class="port-heading">The<br><em>Lookbook</em></h2>
+    </div>
+    <p class="port-note">Hover to see details<br>Filter by availability</p>
+  </div>
+  <div class="port-filters reveal">
+    <button class="flt on" data-f="all">All</button>
+    <button class="flt" data-f="sale">For Sale</button>
+    <button class="flt" data-f="rental">For Rental</button>
+  </div>
+  <div class="port-grid reveal">
+
+    <div class="port-item" data-cat="sale">
+      <div class="p-img"><div class="p-inner ph-a"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">The Linen Column Dress</p><div class="p-meta"><span class="p-type">Summer 2024</span><span class="p-tag">For Sale</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="rental">
+      <div class="p-img"><div class="p-inner ph-b"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Black Taffeta Evening Gown</p><div class="p-meta"><span class="p-type">Occasion wear</span><span class="p-tag rent">For Rental</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="sale">
+      <div class="p-img"><div class="p-inner ph-c"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Wide-Leg Wool Trousers</p><div class="p-meta"><span class="p-type">Autumn 2024</span><span class="p-tag">For Sale</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="rental">
+      <div class="p-img"><div class="p-inner ph-d"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Ivory Sculptural Jacket</p><div class="p-meta"><span class="p-type">Statement piece</span><span class="p-tag rent">For Rental</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="sale">
+      <div class="p-img"><div class="p-inner ph-a"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Bias-Cut Silk Slip</p><div class="p-meta"><span class="p-type">Year-round</span><span class="p-tag">For Sale</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="rental">
+      <div class="p-img"><div class="p-inner ph-e"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Deep-Pleated Ceremony Coat</p><div class="p-meta"><span class="p-type">Occasion wear</span><span class="p-tag rent">For Rental</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="sale">
+      <div class="p-img"><div class="p-inner ph-c"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Structured Cotton Blazer</p><div class="p-meta"><span class="p-type">Everyday</span><span class="p-tag">For Sale</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="rental">
+      <div class="p-img"><div class="p-inner ph-b"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Draped Crepe Ensemble</p><div class="p-meta"><span class="p-type">Editorial</span><span class="p-tag rent">For Rental</span></div></div>
+    </div>
+
+    <div class="port-item" data-cat="sale">
+      <div class="p-img"><div class="p-inner ph-d"><span class="p-lbl">Replace with<br>your photo</span></div></div>
+      <div class="p-over"><p class="p-title">Raw-Hem Denim Skirt</p><div class="p-meta"><span class="p-type">Casual</span><span class="p-tag">For Sale</span></div></div>
+    </div>
+
+  </div>
+  <div class="port-note-block reveal">
+    Replace the placeholder blocks above with &lt;img&gt; tags pointing to your photos<br>
+    · Recommended: portrait-oriented JPGs, min 800px wide ·
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="about-left reveal">
+    <div class="section-label">Contact</div>
+    <h2 class="contact-heading">Say<br><em>hello.</em></h2>
+    <p class="contact-body">Whether you're interested in a piece from the lookbook, have a custom order in mind, or want to enquire about rental — I'd love to hear from you. I reply to everything.</p>
+    <div class="c-links">
+      <a href="mailto:hello@yourname.com" class="c-row">
+        <span class="c-icon">✉</span>
+        <span class="c-lbl">Email</span>
+        <span class="c-val">hello@yourname.com</span>
+        <span class="c-arr">→</span>
+      </a>
+      <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="c-row">
+        <span class="c-icon">◎</span>
+        <span class="c-lbl">Instagram</span>
+        <span class="c-val">@yourhandle</span>
+        <span class="c-arr">→</span>
+      </a>
+    </div>
+  </div>
+  <div class="c-right reveal">
+    <span class="c-form-lbl">Or send a message directly</span>
+    <form id="cform">
+      <div class="f-field">
+        <label>Your name</label>
+        <input type="text" placeholder="Jane Smith" required />
+        <span class="f-under"></span>
+      </div>
+      <div class="f-field">
+        <label>Email</label>
+        <input type="email" placeholder="jane@email.com" required />
+        <span class="f-under"></span>
+      </div>
+      <div class="f-field">
+        <label>I'm interested in…</label>
+        <select>
+          <option value="">— Select —</option>
+          <option>Buying a piece</option>
+          <option>Renting a piece</option>
+          <option>A custom order</option>
+          <option>Something else</option>
+        </select>
+        <span class="f-under"></span>
+      </div>
+      <div class="f-field">
+        <label>Message</label>
+        <textarea placeholder="Tell me what you're looking for…" required></textarea>
+        <span class="f-under"></span>
+      </div>
+      <button type="submit" class="btn-send"><span>Send message →</span></button>
+    </form>
+    <div class="form-ok" id="formOk">Thank you — I'll be in touch soon.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="f-name">Elena Vasquez</span>
+  <div class="f-mid">Handmade clothing · Sale &amp; Rental<br>© 2025</div>
+  <div class="f-social">
+    <a href="mailto:hello@yourname.com">Email</a>
+    <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const c=document.getElementById('cur'),o=document.getElementById('cur-o');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;o.style.left=rx+'px';o.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+// Scroll reveal
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Filter
+document.querySelectorAll('.flt').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.flt').forEach(b=>b.classList.remove('on'));
+    this.classList.add('on');
+    const f=this.dataset.f;
+    document.querySelectorAll('.port-item').forEach(item=>{
+      item.classList.toggle('off', f!=='all' && item.dataset.cat!==f);
+    });
+  });
+});
+
+// Form
+document.getElementById('cform').addEventListener('submit',function(e){
+  e.preventDefault();
+  this.style.display='none';
+  document.getElementById('formOk').classList.add('show');
+});
+</script>
+</body>
+</html>
