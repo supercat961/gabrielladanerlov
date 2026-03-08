@@ -82,17 +82,17 @@ body {
 
 /* A: 2 tall left + 1 right shorter — like "Error Mal Function" */
 .piece-cluster.layout-a {
-  grid-template-columns: 1fr 0.75fr 0.5fr;
+  grid-template-columns: 0.75fr 0.5fr 0.4fr;
   grid-template-rows: auto;
   align-items: start;
 }
-.piece-cluster.layout-a .ph:nth-child(1) { grid-column:1; grid-row:1; }
+.piece-cluster.layout-a .ph:nth-child(1) { grid-column:1; grid-row:1; align-self:center; }
 .piece-cluster.layout-a .ph:nth-child(2) { grid-column:2; grid-row:1; align-self:center; }
 .piece-cluster.layout-a .ph:nth-child(3) { grid-column:3; grid-row:1; align-self:center; }
 
 /* B: 1 collage-block left + 2 portrait right — like "The Flasher" */
 .piece-cluster.layout-b {
-  grid-template-columns: 0.9fr 0.7fr 0.4fr;
+  grid-template-columns: 0.75fr 0.4fr 0.3fr;
   grid-template-rows: auto;
   align-items: start;
 }
@@ -102,7 +102,7 @@ body {
 
 /* C: 2 tall left + 2x2 right — like "Nip-Slip-Dress" */
 .piece-cluster.layout-c {
-  grid-template-columns: 0.8fr 1fr 0.5fr;
+  grid-template-columns: 0.75fr 0.3fr 0.5fr;
   grid-template-rows: auto auto;
   align-items: start;
 }
@@ -113,7 +113,7 @@ body {
 
 /* D: simple 2 side by side, offset */
 .piece-cluster.layout-d {
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 0.75fr 0.4fr;
 }
 .piece-cluster.layout-d .ph:nth-child(1) { grid-column:1; }
 .piece-cluster.layout-d .ph:nth-child(2) { grid-column:2; margin-top: 40px; }
