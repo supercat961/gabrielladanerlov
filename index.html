@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GABRIELLA DANERLÖV</title>
+<title>DANERLÖV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
@@ -321,98 +321,6 @@ body {
 }
 .piece-inquire:hover { background: #333; }
 
-
-/* ═══════════════════════════════
-   ABOUT PAGE
-═══════════════════════════════ */
-#page-about {
-  padding: 16px 10px 60px;
-  max-width: 560px;
-}
-
-#page-about h2 {
-  font-family: 'Anton', sans-serif;
-  font-size: 15px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-weight: 400;
-  margin-bottom: 14px;
-}
-
-.about-ph {
-  width: 180px;
-  aspect-ratio: 3/4;
-  background: #e5e5e5;
-  float: left;
-  margin: 0 16px 10px 0;
-  position: relative;
-  overflow: hidden;
-}
-.about-ph img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top; }
-.about-ph::before { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:1px; height:40%; background:#bbb; }
-.about-ph::after  { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:40%; height:1px; background:#bbb; }
-.about-ph:has(img)::before, .about-ph:has(img)::after { display:none; }
-
-.about-text p {
-  font-size: 12.5px;
-  line-height: 1.85;
-  margin-bottom: 10px;
-  color: #111;
-}
-.about-text em { font-style: italic; }
-
-.about-links {
-  clear: both;
-  margin-top: 18px;
-  padding-top: 12px;
-  border-top: 1px solid #ccc;
-}
-.about-links a {
-  display: block;
-  font-size: 12px;
-  color: #000;
-  text-decoration: none;
-  margin-bottom: 4px;
-  border-bottom: 1px solid transparent;
-  width: fit-content;
-}
-.about-links a:hover { border-bottom-color: #000; }
-
-/* ── lightbox ── */
-#lb {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 999;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-#lb.show { display: flex; }
-#lb img {
-  max-width: 90vw; max-height: 90vh;
-  object-fit: contain; display: block; cursor: default;
-}
-#lb-x {
-  position: fixed; top: 12px; right: 16px;
-  color: #fff; font-size: 24px; cursor: pointer;
-  font-family: 'Barlow', sans-serif; font-weight: 300; line-height: 1;
-  z-index: 1000;
-}
-
-</style>
-</head>
-<body>
-
-<!-- ═══ HEADER ═══ -->
-<div id="site-header">
-  <h1>Gabriella Danerlöv</h1>
-  <nav>
-    <a id="nav-shop" class="active" onclick="showPage('shop')">shop</a>
-    <a id="nav-about" onclick="showPage('about')">about</a>
-  </nav>
-</div>
-
 <!-- ═══════════════════════════════
      SHOP PAGE
 ════════════════════════════════ -->
@@ -484,41 +392,6 @@ body {
 
   <!-- info — populated by JS -->
   <div id="piece-info"></div>
-</div>
-
-<!-- ═══════════════════════════════
-     ABOUT PAGE
-════════════════════════════════ -->
-<div class="page" id="page-about">
-  <h2>About</h2>
-
-  <!-- replace the div below with: <img class="about-ph" src="your-photo.jpg"/> -->
-  <div class="about-ph"></div>
-
-  <div class="about-text">
-    <p>
-      Gabriella Danerlöv is a Stockholm-based fashion designer. She studied at
-      <em>Beckmans College of Design</em>, graduating with a BA in Fashion Design.
-    </p>
-    <p>
-      She designs and constructs all of her garments herself. Each piece is handmade —
-      cut, sewn and finished in her studio. Her work sits outside mainstream fashion:
-      it is made slowly, with intention, in small numbers or as one-offs.
-    </p>
-    <p>
-      Alongside her own work, Gabriella does costume design. She has worked as a
-      costume design assistant on the film <em>The Dance Club</em> and on productions
-      for SVT and Netflix.
-    </p>
-    <p>
-      Custom orders are open. Write to her.
-    </p>
-  </div>
-
-  <div class="about-links">
-    <a href="mailto:hello@gabrielladanerlöv.se">hello@gabrielladanerlöv.se</a>
-    <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener">instagram: @yourhandle</a>
-  </div>
 </div>
 
 <!-- ═══ LIGHTBOX ═══ -->
